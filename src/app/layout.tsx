@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Figtree } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
+import TransitionWrapper from "@/lib/TransitionWrapper";
+import Nav from "@/lib/Nav";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -37,10 +40,21 @@ export default function RootLayout({
         "font-sans",
         figtree.variable,
       )}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
         {" "}
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Nav />
+            <TransitionWrapper>{children}</TransitionWrapper>
+          </ThemeProvider>
+        </TooltipProvider>
       </body>
     </html>
   );
